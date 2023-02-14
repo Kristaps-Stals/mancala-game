@@ -1,26 +1,41 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <MainMenu v-if="state=='menu'" @buttonSelected="handleSelect"></MainMenu>
+  <Game v-if="state == 'singleplayer' || state == 'multiplayer'" :gameVar="state" @back="setTabMenu"></Game>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MainMenu from './components/MainMenu.vue'
+import Game from './components/Game.vue'
 
 export default {
+
   name: 'App',
+
   components: {
-    HelloWorld
-  }
+    MainMenu,
+    Game,
+  },
+
+  data() {
+    return {
+      state: "menu",
+
+    }
+  },
+
+  methods: {
+    handleSelect(button){
+      this.state = button
+    },
+
+    setTabMenu(){
+      this.state = "menu"
+    },
+
+  },
+
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>

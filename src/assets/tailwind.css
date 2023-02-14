@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* * {
+  outline: 1px solid tomato;
+} */
+
+
+.fromup{
+  animation: up_to_middle 1.5s cubic-bezier(.23,.46,.2,1);
+}
+@keyframes up_to_middle {
+  0% {
+    transform: translateY(-125%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.todown{
+  animation: middle_to_down 0.75s cubic-bezier(.23,.46,.2,1);
+  animation-fill-mode: forwards;
+}
+@keyframes middle_to_down {
+  0% {
+    transform: translateY(0)
+  }
+  
+  100% {
+    transform: translateY(150%);
+  }
+}
+
+.todownfast{
+  animation: todownfast 0.75s cubic-bezier(.23,.46,.2,1);
+  animation-fill-mode: forwards;
+}
+@keyframes todownfast{
+  0% {
+    transform: translateY(0)
+  }
+  
+  100% {
+    transform: translateY(1125%);
+  }
+}
+
+.todown100{
+  animation: todown100 0.75s cubic-bezier(.23,.46,.2,1);
+  animation-fill-mode: forwards;
+}
+@keyframes todown100 {
+  0% {
+    transform: translateY(0)
+  }
+  
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+
+.gameAnimLeft {
+  animation: gameAnimLeft 1s cubic-bezier(.23,.46,.2,1);
+}
+@keyframes gameAnimLeft {
+  0% {
+    transform: translateX(-250%)
+  }
+  
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.gameAnimUp {
+  animation: gameAnimUp 1s cubic-bezier(.23,.46,.2,1) 0.33s;
+  animation-fill-mode: backwards;
+}
+@keyframes gameAnimUp {
+  0% {
+    transform: translateY(-250%)
+  }
+  
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.gameAnimRight {
+  animation: gameAnimRight 1s cubic-bezier(.23,.46,.2,1);
+}
+@keyframes gameAnimRight {
+  0% {
+    transform: translateX(250%)
+  }
+  
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.gameAnimDown {
+  animation: gameAnimDown 1s cubic-bezier(.23,.46,.2,1) 0.33s;
+  animation-fill-mode: backwards;
+}
+@keyframes gameAnimDown {
+  0% {
+    transform: translateY(250%)
+  }
+  
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.gameAnimNameUp {
+  animation: gameAnimNameUp 1s cubic-bezier(.23,.46,.2,1) 0.66s;
+  animation-fill-mode: backwards;
+}
+@keyframes gameAnimNameUp {
+  0% {
+    transform: translateY(-100%)
+  }
+  
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.gameAnimNameDown {
+  animation: gameAnimNameDown 1s cubic-bezier(.23,.46,.2,1) 0.66s;
+  animation-fill-mode: backwards;
+}
+@keyframes gameAnimNameDown {
+  0% {
+    transform: translateY(100%)
+  }
+  
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.gameAnimCloseButton {
+  animation: gameAnimCloseButton 1s cubic-bezier(.23,.46,.2,1) 1s;
+  animation-fill-mode: backwards;
+}
+@keyframes gameAnimCloseButton {
+  0% {
+    transform: translateY(-100%)
+  }
+  
+  100% {
+    transform: translateX(0);
+  }
+}
+
+html {
+  background-color: #111014;
+  margin: 0;
+  height: 100%;
+  overflow: hidden
+}
+
+.btn-green {
+  @apply bg-green-500 text-white rounded-xl;
+}
+
+.btn-green:hover {
+  @apply bg-green-700;
+}
+
+.btn-blue {
+  @apply bg-blue-500 text-white rounded-xl;
+}
+
+.btn-blue:hover {
+  @apply bg-blue-700;
+}
+
+.btn-red {
+  @apply bg-red-500 text-white rounded-xl;
+}
+
+.btn-red:hover {
+  @apply bg-red-700;
+}
+
+.main-menu-button {
+  @apply text-3xl transition;
+}
+
+.player1pocketbg{
+  @apply bg-blue-700
+}
+.player2pocketbg{
+  @apply bg-red-700
+}
+
+.enlarge{
+  transform: scale(1);
+  transition: all 0.2s cubic-bezier(.23,.46,.2,1);
+}
+.enlarge:hover{
+  transform: scale(1.5);
+}
