@@ -201,10 +201,58 @@ html {
   @apply bg-red-700
 }
 
+.player1popup{
+  @apply text-blue-300
+}
+
+.player2popup{
+  @apply text-red-300
+}
+
 .enlarge{
   transform: scale(1);
   transition: all 0.2s cubic-bezier(.23,.46,.2,1);
 }
 .enlarge:hover{
   transform: scale(1.5);
+}
+
+.popupAnim{
+  animation: popupAnim 1s cubic-bezier(.17,.67,.1,1);
+  animation-fill-mode: both;
+}
+@keyframes popupAnim {
+  0%{
+    transform: translateY(-60%);
+  }
+  60% {
+    transform: translateY(0%);
+  }
+  70%{
+    transform: translateY(0%);
+  }
+  100%{
+    transform: translateY(100%);
+  }
+}
+
+.highlightPocket {
+  @apply border-2 border-black;
+  transform: scale(1.1);;
+  transition: all 0.2s cubic-bezier(.23,.46,.2,1);
+}
+
+.bumpAnim {
+  animation: bump 0.1s cubic-bezier(.23,.46,.2,1);
+}
+@keyframes bump {
+  0% {
+    transform: scale(1)
+  }
+  20%{
+    transform: scale(1.05)
+  }
+  100%{
+    transform: scale(1)
+  }
 }

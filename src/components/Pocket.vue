@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full" :class="{ player1pocketbg: p1, player2pocketbg: !p1 }">
+  <div class="h-full rounded-3xl" :class="{ player1pocketbg: p1, player2pocketbg: !p1, highlightPocket: highlight, bumpAnim: bumpAnim}">
     <button class="w-full h-full enlarge" @click="buttonClick">
       <span class="text-4xl">{{ Value }}</span>
     </button>
@@ -10,11 +10,28 @@
 
 export default {
 
-  props:["Value", "id"],
+  data (){
+    return{
+      bumpAnim: false,
+    }
+  },
+
+  props:["Value", "id", "isSelected"],
 
   methods: {
     buttonClick(){
       this.$emit("buttonPressed", this.id)
+    }
+  },
+
+  watch: {
+    Value(newVal, oldVal){
+      if(this.bumpAnim == false){
+        this.bumpAnim = true
+        setTimeout(() => {
+          this.bumpAnim = false
+        }, 100);
+      }
     }
   },
 
@@ -25,6 +42,13 @@ export default {
         return false
       }
       return true
+    },
+
+    highlight(){
+      if(this.id == this.isSelected){
+        return true
+      }
+      return false
     }
   }
 
