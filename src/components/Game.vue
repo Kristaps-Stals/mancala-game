@@ -76,7 +76,7 @@ export default {
     Popup,
   },
 
-  props: ['gameVar'], // gameVar = singleplayer or multiplayer
+  props: ['gameVars', 'settingsData'], // gameVar = singleplayer or multiplayer
   
   data(){
     return {
@@ -95,9 +95,7 @@ export default {
       popup: false, // Play popup animation
       popupMessage: null, // Popup message
       popupTurnP1: true, // Popup blue or red
-      timeBetween: 300, // Time between each animation when making a move
       pocketSelected: null, // This pocket will be highlighted (0-13)
-      depth: 9,
       winner: null,
     }
   },
@@ -107,14 +105,14 @@ export default {
   mounted(){
     
     // Assign player names
-    if(this.gameVar != "multiplayer"){
+    if(this.gameVars.CPU == 1){
       this.p1Name = "Player"
       this.p2Name = "CPU"
     } else {
       this.p1Name = "Player 1"
       this.p2Name = "Player 2"
     }
-    if(this.gameVar == "singleplayerp2"){
+    if(this.gameVars.P1Start == false){
       this.p1turn = false
       this.round = 0.5
     }
@@ -123,11 +121,9 @@ export default {
     this.timeCreated = date.getTime()
     this.timeInterval = setInterval(() => {
       this.updateTime()
-
       if(this.p2Name == "CPU" && this.p1turn == false && !this.gameEnded && !this.moveInProgress && !this.aiThinking){
         this.makeAiMove()
       }
-
     }, 100)
   },
 
@@ -148,7 +144,7 @@ export default {
     makeMove(id){
 
       // Variables
-      var TIME_INTERVAL = this.timeBetween // time between each tick in ms
+      var TIME_INTERVAL = this.settingsData.animationDelay// time between each tick in ms
       var gemCount = this.currentGameState[id] // gem count in clicked pocket
       var currentPocket = id
       var i = 0
@@ -296,7 +292,7 @@ export default {
           var isLegalMove = false
         var move = 0
         while (!isLegalMove){
-          move = AI.bestMove(this.currentGameState, this.depth) + 7 
+          move = AI.bestMove(this.currentGameState, this.settingsData.baseDepth) + 7 
           if (this.isMoveLegal(move, false)){
             isLegalMove = true
           }
@@ -314,7 +310,7 @@ export default {
             return true
           }
         } else { // If it's not player 1's turn (aka it is player 2's turn)
-          if(id > 6 && id < 13 && (this.gameVar == "multiplayer" || !player)){ // And if the clicked pocket falls into player 2's territory AND it is a 2 player game
+          if(id > 6 && id < 13 && (this.gameVars.CPU == false || !player)){ // And if the clicked pocket falls into player 2's territory AND it is a 2 player game
             return true
           }
         }
@@ -334,8 +330,10 @@ export default {
 
     // Returns to menu
     backToMenu(){
-      this.close = true
-      this.$emit("back")
+      setTimeout(() => { // because otherwise it can break if the cpu is going first and the user clicks the exit button before it finishes making its very first move
+        this.close = true
+        this.$emit("back")
+      }, 1);
     },
 
     // Updates time passed

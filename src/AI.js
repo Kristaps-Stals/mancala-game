@@ -5,13 +5,15 @@ var AI = {
 
     // Import the game state
     var gameState = this.copyToNewArray(currentGameState)
-    var uncapGems = this.getTotalUncapturedGems(gameState)
+    var uncapGems = this.getTotalUncapturedGems(gameState) // Uncaptured gems
     if (uncapGems < 15){
       depth += 3
     } else if (uncapGems < 20){
-      depth += 2
+      depth += 2 
     } else if (uncapGems < 30){
-      depth++
+      depth += 1
+    } else if (uncapGems > 45) {
+      depth -= 1
     }
     console.log("searching at depth " + depth + "...")
     var bestMove = this.minimax(gameState, depth, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, true, true)
@@ -25,7 +27,7 @@ var AI = {
     var possibleMoves = this.findPossibleMoves(currentGameState, !maximizer)
 
     // Base case
-    if(depth == 0 || possibleMoves.length == 0){
+    if((depth <= 0 && maximizer) || possibleMoves.length == 0){
       
       if(possibleMoves.length == 0){
         currentGameState = this.getEndGame(currentGameState)
@@ -47,11 +49,11 @@ var AI = {
         } else {
           nextValue = this.minimax(nextGameState, depth-1, alpha, beta, false, false)
         }
-        if (nextValue >= value){
+        if (nextValue > value){
           bestMove = possibleMoves[i]
         }
-        alpha = Math.max(alpha, value)
         value = Math.max(value, nextValue)
+        alpha = Math.max(alpha, value)
         if(value >= beta){
           break
         }

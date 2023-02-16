@@ -20,6 +20,19 @@
   }
 }
 
+.fromup100{
+  animation: fromup100 1.5s cubic-bezier(.23,.46,.2,1);
+}
+@keyframes fromup100 {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .todown{
   animation: middle_to_down 0.75s cubic-bezier(.23,.46,.2,1);
   animation-fill-mode: forwards;
@@ -255,4 +268,11 @@ html {
   100%{
     transform: scale(1)
   }
+}
+
+/* disable spin arrows*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; 
 }

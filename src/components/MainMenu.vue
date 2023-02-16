@@ -1,7 +1,7 @@
 <template>
   <div class="absolute w-1/2 h-3/4 fromup" :class="{ todown: downAnimation}" style="top:12.5%;left:25%">
     <h1 class="text-5xl text-center text-white select-none">Mancala</h1>
-    <div class="absolute w-1/2 h-3/4 top-1/4 left-1/4 grid">
+    <div class="absolute w-1/2 left-1/4 grid" style="height:60%;top:20%">
       <button class="btn-green main-menu-button" @click="buttonClicked('singleplayer')">1 player</button>
       <button class="btn-green mt-6 main-menu-button" @click="buttonClicked('singleplayerp2')">1 player (cpu starts)</button>
       <button class="btn-green mt-6 main-menu-button" @click="buttonClicked('multiplayer')">2 Players</button>
