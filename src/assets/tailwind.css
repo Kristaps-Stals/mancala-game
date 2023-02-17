@@ -33,6 +33,18 @@
   }
 }
 
+.fromup500{
+  animation: fromup500 1.5s cubic-bezier(.23,.46,.2,1);
+}
+@keyframes fromup500 {
+  0% {
+    transform: translateY(-500%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
 .todown{
   animation: middle_to_down 0.75s cubic-bezier(.23,.46,.2,1);
   animation-fill-mode: forwards;

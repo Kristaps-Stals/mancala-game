@@ -1,7 +1,8 @@
 <template>
   <MainMenu v-if="state=='menu' || lingerState=='menu'" @buttonSelected="handleSelect"/>
   <HowTo v-if="state=='howto' || lingerState=='howto'" @back="setTabMenu"/>
-  <Game v-if="state=='game' || lingerState=='game'" :gameVars="gameVars" :settingsData="settingsData" @back="setTabMenu"/>
+  <Game v-if="state=='game' || lingerState=='game'" :gameVars="gameVars" :settingsData="settingsData" @statInc="statisticsIncrement" @playAgain="playAgain" @back="setTabMenu"/>
+  <statistics v-if="state=='statistics' || lingerState=='statistics'" :statisticsData="statisticsData" @back="setTabMenu"/>
   <Settings v-if="state=='settings' || lingerState=='settings'" :settingsData="settingsData" @back="setTabMenu"/>
 </template>
 
@@ -9,7 +10,9 @@
 import MainMenu from './components/MainMenu.vue'
 import Game from './components/Game.vue'
 import HowTo from './components/HowTo.vue'
+import Statistics from './components/Statistics.vue'
 import Settings from './components/Settings.vue'
+import { toNumber } from '@vue/shared'
 
 export default {
 
@@ -19,6 +22,7 @@ export default {
     MainMenu,
     Game,
     HowTo,
+    Statistics,
     Settings,
   },
 
@@ -32,9 +36,44 @@ export default {
         evalBar: false, // Display eval bar?
       },
       gameVars: {}, // Game config
+      statisticsData: {
+        timePlayed: 0,
+        winsAgainstCPUp1: 0,
+        winsAgainstCPUp2: 0,
+        gamesStarted: 0,
+        gamesFinished: 0,
+        movesMade: 0,
+        bonusMovesMade: 0,
+        capturesMade: 0,
+      },
       intervals: {},
     }
   },
+
+  mounted(){
+    for (const stat in this.statisticsData){
+      let value = localStorage.getItem(stat)
+      if (value){
+        this.statisticsData[stat] = value
+        console.log(this.statisticsData[stat])
+      }
+    }
+
+    setInterval(() => {
+      this.statisticsData.timePlayed++
+
+      // Because loop didnt work for some reason
+      localStorage.setItem('timePlayed', this.statisticsData.timePlayed)
+      localStorage.setItem('winsAgainstCPUp1', this.statisticsData.winsAgainstCPUp1)
+      localStorage.setItem('winsAgainstCPUp2', this.statisticsData.winsAgainstCPUp2)
+      localStorage.setItem('gamesStarted', this.statisticsData.gamesStarted)
+      localStorage.setItem('gamesFinished', this.statisticsData.gamesFinished)
+      localStorage.setItem('movesMade', this.statisticsData.movesMade)
+      localStorage.setItem('bonusMovesMade', this.statisticsData.bonusMovesMade)
+      localStorage.setItem('capturesMade', this.statisticsData.capturesMade)
+    }, 1000);
+  },
+
 
   methods: {
     handleSelect(button){
@@ -66,6 +105,21 @@ export default {
       
     },
 
+    playAgain(){
+      console.log(1)
+      this.state = "rand"
+      setTimeout(() => {
+        this.state = "rand1"
+        setTimeout(() => {
+          this.state = "game"
+        }, 1);
+      }, 400);
+    },
+    
+    statisticsIncrement(name, value){
+      this.statisticsData[name] = value + toNumber(this.statisticsData[name])
+    },
+    
     setTabMenu(){
       this.state = "menu"
     },
@@ -74,7 +128,6 @@ export default {
 
   watch:{
     state(newVal, oldVal){
-      console.log(newVal)
       // Allows the tab to live for a second after being closed (IF TABS ARE BEING SWITCHED BACK AND FORWARD TOO QUICKLY THEY WILL BREAK BUT IT SHOULD BE IMPOSSIBLE TO GO THAT FAST)
       //linger the tab
       this.lingerState = oldVal
@@ -88,8 +141,8 @@ export default {
         clearTimeout(this.intervals.baseDepth)
       }
       this.intervals.baseDepth = setTimeout(() => {
-        if(this.settingsData.baseDepth < 2){
-          this.settingsData.baseDepth = 2
+        if(this.settingsData.baseDepth < 1){
+          this.settingsData.baseDepth = 1
         }
         if(this.settingsData.baseDepth > 12){
           this.settingsData.baseDepth = 12

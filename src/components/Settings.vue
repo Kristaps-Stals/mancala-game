@@ -4,8 +4,8 @@
       <h1 class="text-5xl text-center text-white select-none">Settings</h1>
       <form class="text-white text-3xl py-20" onsubmit="return false">
         <div>
-          <label class="select-none">Base CPU depth: </label>
-          <input class="text-black rounded-xl text-center" min="2" max="12" style="width:75px" type="number" required v-model="settingsData.baseDepth">
+          <label class="select-none">Base CPU depth (1-12): </label>
+          <input class="text-black rounded-xl text-center" min="1" max="12" style="width:75px" type="number" required v-model="settingsData.baseDepth">
         </div>
         <br>
         <div>

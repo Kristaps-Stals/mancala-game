@@ -49,7 +49,7 @@
       <p v-if="p1turn" class="m-auto text-6xl">{{ p1Name }}'s turn</p>
       <p v-else class="m-auto text-6xl" >{{ p2Name }}'s turn</p>
     </div>
-    <div v-else class="absolute flex select-none" style="width:25%;height:25%;top:75%;left:37.5%;">
+    <div v-if="gameEnded" class="absolute flex select-none" style="width:25%;height:25%;top:75%;left:37.5%;">
       <p class="m-auto text-6xl"> Winner: {{ winner }}</p>
     </div>
     <!-- Turn/round counter -->
@@ -60,6 +60,21 @@
     <div v-if="timePassed>60" class="absolute flex gameAnimNameDown select-none" style="width:12.5%;height:25%;top:75%;animation-delay: 0s;">
       <p class="m-auto text-4xl">{{ formatTime }}</p>
     </div>
+    <!-- Eval bar -->
+    <div v-if="settingsData.evalBar" class="absolute flex gameAnimLeft select-none" style="width:12.5%;height:50%;top:25%;animation-delay:1.5s;animation-fill-mode: both;">
+      <div class="m-auto relative h-full w-1/4 bg-blue-500 rounded-xl overflow-hidden border-2">
+        <div class=" bg-red-500 border-b-2 transition-all duration-1000 flex" :style="{ 'height': evalHeight + '%'}" style="transition-timing-function: cubic-bezier(.23,.46,.2,1);">
+          <p v-if="latestEval<0" class="text-xl mt-auto mx-auto">{{ evalMessage }}</p>
+        </div>
+        <p v-if="latestEval>=0" class="text-xl text-center">{{ evalMessage }}</p>
+      </div>
+    </div>
+    <!-- Game end popup -->
+    <div v-if="gameEnded" class="absolute w-1/2 h-1/2 fromup500 border-2" style="top:25%; left:25%; background-image: linear-gradient(to right, #ef4444 , #3b82f6);">
+      <h1 class=" text-6xl text-center mt-28">Game finished!</h1>
+      <button class="btn-red absolute text-2xl border-2" style="width:20%;height:20%;left:60%; top:60%" @click="backToMenu">EXIT</button>
+      <button class="btn-green absolute text-2xl border-2" style="width:20%;height:20%;left:20%; top:60%" @click="playAgain">PLAY AGAIN</button>
+    </div>
     <popup v-if="popup" :message="popupMessage" :player1="popupTurnP1"/>
   </div>
 </template>
@@ -68,6 +83,7 @@
 import AI from '../AI'
 import Pocket from './Pocket.vue'
 import Popup from './Popup.vue'
+
 
 export default {
 
@@ -97,13 +113,16 @@ export default {
       popupTurnP1: true, // Popup blue or red
       pocketSelected: null, // This pocket will be highlighted (0-13)
       winner: null,
+      latestEval: 10, // The higher, the better for player 1
     }
   },
 
 
   // When game starts
   mounted(){
-    
+
+    this.$emit('statInc', 'gamesStarted', 1)
+
     // Assign player names
     if(this.gameVars.CPU == 1){
       this.p1Name = "Player"
@@ -112,13 +131,17 @@ export default {
       this.p1Name = "Player 1"
       this.p2Name = "Player 2"
     }
+    // Assign turn start
     if(this.gameVars.P1Start == false){
       this.p1turn = false
       this.round = 0.5
+      this.latestEval = -4
     }
+
     // Setup time
     var date = new Date()
     this.timeCreated = date.getTime()
+
     this.timeInterval = setInterval(() => {
       this.updateTime()
       if(this.p2Name == "CPU" && this.p1turn == false && !this.gameEnded && !this.moveInProgress && !this.aiThinking){
@@ -143,6 +166,8 @@ export default {
     // Do a move on the board. id - the pocket; player1 - true means player1 is making the move, false means player2 is making the move.
     makeMove(id){
 
+      this.$emit('statInc', 'movesMade', 1)
+
       // Variables
       var TIME_INTERVAL = this.settingsData.animationDelay// time between each tick in ms
       var gemCount = this.currentGameState[id] // gem count in clicked pocket
@@ -150,6 +175,7 @@ export default {
       var i = 0
       this.moveInProgress = true
       this.pocketSelected = id
+
 
       // Redistributes gems
       for(i = 0; i < gemCount; i++){
@@ -173,7 +199,21 @@ export default {
         // Check for bonus move
         if(!this.checkBonusTurn(currentPocket)){
           this.p1turn = !this.p1turn
+          setTimeout(() => {
+            if (this.gameVars.CPU == 0 && this.settingsData.evalBar){
+              var temp
+              var tempEval
+              if(this.p1turn == true) {
+                [temp, tempEval] = AI.bestMove(this.flipBoard(this.currentGameState), Math.max(this.settingsData.baseDepth-1, 2))
+                this.latestEval = -tempEval
+              } else {
+                [temp, this.latestEval] = AI.bestMove(this.currentGameState, Math.max(this.settingsData.baseDepth-1, 2))
+              }
+            }
+          }, 20);
+          
         } else {
+          this.$emit('statInc', 'bonusMovesMade', 1)
           this.showPopup("BONUS TURN", this.p1turn)
         }
 
@@ -219,6 +259,7 @@ export default {
 
     // Executes a capture
     performCapture(currentPocket){
+        this.$emit('statInc', 'capturesMade', 1)
         var capturedPocket = 12-currentPocket
         var amount = this.currentGameState[capturedPocket] + 1
         if(this.p1turn){
@@ -275,6 +316,11 @@ export default {
       this.currentGameState[13] += count
       if (this.currentGameState[6] > this.currentGameState[13]){
         this.winner = this.p1Name
+        if(this.gameVars.CPU == 1 && this.gameVars.P1Start == true && this.settingsData.baseDepth >= 11){
+          this.$emit('statInc', 'winsAgainstCPUp1', 1)
+        } else if(this.gameVars.CPU == 1 && this.gameVars.P1Start == false && this.settingsData.baseDepth >= 11){
+          this.$emit('statInc', 'winsAgainstCPUp2', 1)
+        }
       } else if (this.currentGameState[6] < this.currentGameState[13]) {
         this.winner = this.p2Name
       } else {
@@ -282,7 +328,7 @@ export default {
       }
 
       this.gameEnded = true
-
+      this.$emit('statInc', 'gamesFinished', 1)
     },
 
     makeAiMove(){
@@ -292,7 +338,8 @@ export default {
           var isLegalMove = false
         var move = 0
         while (!isLegalMove){
-          move = AI.bestMove(this.currentGameState, this.settingsData.baseDepth) + 7 
+          [move, this.latestEval] = AI.bestMove(this.currentGameState, this.settingsData.baseDepth)
+          move = move + 7
           if (this.isMoveLegal(move, false)){
             isLegalMove = true
           }
@@ -301,6 +348,14 @@ export default {
         this.aiThinking = false
         }, 20);
       }
+    },
+
+    flipBoard(currentGameState){
+      var flippedGameState = []
+      for (let i = 0; i < 14; i++){
+        flippedGameState.push(currentGameState[(i+7)%14])
+      }
+      return flippedGameState
     },
 
     isMoveLegal(id, player){
@@ -328,12 +383,34 @@ export default {
       }, 800);
     },
 
+    // Counts the total number of gems in a given position
+    countTotal(currentGameState){
+      var count = 0
+      for(let i = 0; i < currentGameState.length; i++){
+        count += currentGameState[i]
+      }
+      return count
+    },
+
+    copyToNewArray(array){
+      var newArray = []
+      for (let i = 0; i < array.length; i++){
+        newArray.push(array[i])
+      }
+      return newArray
+    },
+
     // Returns to menu
     backToMenu(){
       setTimeout(() => { // because otherwise it can break if the cpu is going first and the user clicks the exit button before it finishes making its very first move
         this.close = true
         this.$emit("back")
       }, 1);
+    },
+
+    playAgain(){
+      this.close = true
+      this.$emit("playAgain")
     },
 
     // Updates time passed
@@ -372,6 +449,26 @@ export default {
       text = text.concat((this.timePassed%60).toString())
       return text
     },
+
+    // in %
+    evalHeight(){
+      var totalGems = this.countTotal(this.currentGameState)
+      var shiftedEval = this.latestEval + (totalGems/2)
+      var unitSize = 1/totalGems
+      return Math.max(Math.min(100 - (shiftedEval * unitSize * 100), 100), 0)
+    },
+
+    evalMessage(){
+      var message = ''
+      if (this.latestEval > 0) {
+        message = '+' + this.latestEval
+      } else if (this.latestEval < 0){
+        message = this.latestEval
+      } else {
+        message = '0'
+      }
+      return message
+    }
   }
 
 }

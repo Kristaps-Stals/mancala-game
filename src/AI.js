@@ -15,10 +15,11 @@ var AI = {
     } else if (uncapGems > 45) {
       depth -= 1
     }
+    depth = Math.max(depth, 1)
     console.log("searching at depth " + depth + "...")
-    var bestMove = this.minimax(gameState, depth, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, true, true)
+    var [bestMove, value] = this.minimax(gameState, depth, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, true, true)
     console.log("best move: " + bestMove)
-    return bestMove
+    return [bestMove, -value] // value flipped because this is from player 2's perspective
   },
 
   minimax(currentGameState, depth, alpha, beta, maximizer, isRoot){
@@ -78,7 +79,7 @@ var AI = {
 
     if(isRoot){
       console.log("Value for move: " + value)
-      return bestMove
+      return [bestMove, value]
     } else {
       return value
     }
