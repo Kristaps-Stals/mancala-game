@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="absolute flex" :class="{ todownfast: downAnimation}" style="height:10%;width:20%;top:90%;left:80%">
-    <p class="m-auto text-white gameAnimRight select-none" style="animation-delay: 1s; animation-fill-mode: backwards;">Kristaps Štāls, Rīgas Valsts 1. ģimnāzija</p>
+    <p class="m-auto text-white gameAnimRight select-none" style="animation-delay: 1s; animation-fill-mode: backwards;">Kristaps Štāls ks23121, Latvijas Universitāte</p>
   </div>
 </template>
 

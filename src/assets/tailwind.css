@@ -220,18 +220,18 @@ html {
 }
 
 .player1pocketbg{
-  @apply bg-blue-700
+  @apply bg-blue-700;
 }
 .player2pocketbg{
-  @apply bg-red-700
+  @apply bg-red-700;
 }
 
 .player1popup{
-  @apply text-blue-300
+  @apply text-blue-300;
 }
 
 .player2popup{
-  @apply text-red-300
+  @apply text-red-300;
 }
 
 .enlarge{
@@ -288,3 +288,10 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; 
 }
+
+
+/* @media (max-width: 600px) {
+  .player1pocketbg {
+    @apply bg-black;
+  }  
+} */

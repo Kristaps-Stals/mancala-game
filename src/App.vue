@@ -51,29 +51,23 @@ export default {
   },
 
   mounted(){
+    // Fetch all of the statistics from localdata
     for (const stat in this.statisticsData){
       let value = localStorage.getItem(stat)
       if (value){
         this.statisticsData[stat] = value
-        console.log(this.statisticsData[stat])
+        // console.log(this.statisticsData[stat])
       }
     }
 
+    // Update localdata with current statistics every second
     setInterval(() => {
       this.statisticsData.timePlayed++
-
-      // Because loop didnt work for some reason
-      localStorage.setItem('timePlayed', this.statisticsData.timePlayed)
-      localStorage.setItem('winsAgainstCPUp1', this.statisticsData.winsAgainstCPUp1)
-      localStorage.setItem('winsAgainstCPUp2', this.statisticsData.winsAgainstCPUp2)
-      localStorage.setItem('gamesStarted', this.statisticsData.gamesStarted)
-      localStorage.setItem('gamesFinished', this.statisticsData.gamesFinished)
-      localStorage.setItem('movesMade', this.statisticsData.movesMade)
-      localStorage.setItem('bonusMovesMade', this.statisticsData.bonusMovesMade)
-      localStorage.setItem('capturesMade', this.statisticsData.capturesMade)
+      for (let i in this.statisticsData){
+        localStorage.setItem(i, this.statisticsData[i]);
+      }
     }, 1000);
   },
-
 
   methods: {
     handleSelect(button){
@@ -106,7 +100,7 @@ export default {
     },
 
     playAgain(){
-      console.log(1)
+      // console.log(1)
       this.state = "rand"
       setTimeout(() => {
         this.state = "rand1"
@@ -128,11 +122,13 @@ export default {
 
   watch:{
     state(newVal, oldVal){
-      // Allows the tab to live for a second after being closed (IF TABS ARE BEING SWITCHED BACK AND FORWARD TOO QUICKLY THEY WILL BREAK BUT IT SHOULD BE IMPOSSIBLE TO GO THAT FAST)
+      // Allows the tab to live for a second after being closed
+      // (IF TABS ARE BEING SWITCHED BACK AND FORWARD TOO QUICKLY THEY WILL BREAK BUT IT SHOULD BE IMPOSSIBLE TO GO THAT FAST :) )
+
       //linger the tab
       this.lingerState = oldVal
       setTimeout(() => {
-      this.lingerState = null
+        this.lingerState = null
       }, 500);
     },
 
