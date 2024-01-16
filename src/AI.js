@@ -16,9 +16,9 @@ var AI = {
       depth -= 1
     }
     depth = Math.max(depth, 1)
-    console.log("searching at depth " + depth + "...")
+    console.log("Searching at depth " + depth + "...")
     var [bestMove, value] = this.minimax(gameState, depth, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, true, true)
-    console.log("best move: " + bestMove)
+    console.log("Best move: " + bestMove)
     return [bestMove, -value] // value flipped because this is from player 2's perspective
   },
 

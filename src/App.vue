@@ -1,4 +1,8 @@
 <template>
+  <div v-if="portraitWarning == 1" id="portraitWarning" class="absolute w-screen h-screen z-10">
+    <div class="text-white text-4xl absolute text-center" style="top:10%; left:10%; width:80%">Please rotate your device for the optimal experience! Thank you :3</div>
+    <button class="bg-red-500 absolute text-lg text-white rounded-md border-2" style="bottom:15%; left:20%; width:60%; height:20%;" @click="closePortraitWarning()">I don't care</button>
+  </div>
   <MainMenu v-if="state=='menu' || lingerState=='menu'" @buttonSelected="handleSelect"/>
   <HowTo v-if="state=='howto' || lingerState=='howto'" @back="setTabMenu"/>
   <Game v-if="state=='game' || lingerState=='game'" :gameVars="gameVars" :settingsData="settingsData" @statInc="statisticsIncrement" @playAgain="playAgain" @back="setTabMenu"/>
@@ -47,6 +51,7 @@ export default {
         capturesMade: 0,
       },
       intervals: {},
+      portraitWarning: 1,
     }
   },
 
@@ -118,12 +123,15 @@ export default {
       this.state = "menu"
     },
 
+    closePortraitWarning(){
+      this.portraitWarning = 0;
+    }
+
   },
 
   watch:{
     state(newVal, oldVal){
       // Allows the tab to live for a second after being closed
-      // (IF TABS ARE BEING SWITCHED BACK AND FORWARD TOO QUICKLY THEY WILL BREAK BUT IT SHOULD BE IMPOSSIBLE TO GO THAT FAST :) )
 
       //linger the tab
       this.lingerState = oldVal

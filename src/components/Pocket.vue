@@ -1,7 +1,7 @@
 <template>
-  <div class="h-full rounded-3xl" :class="{ player1pocketbg: p1, player2pocketbg: !p1, highlightPocket: highlight, bumpAnim: bumpAnim}">
+  <div id="pocket-container" class="h-full rounded-3xl" :class="{ player1pocketbg: p1, player2pocketbg: !p1, highlightPocket: highlight, bumpAnim: bumpAnim}">
     <button class="w-full h-full enlarge" @click="buttonClick">
-      <span class="text-4xl">{{ Value }}</span>
+      <span class="text-4xl mobile-text-lg">{{ Value }}</span>
     </button>
   </div>
 </template>

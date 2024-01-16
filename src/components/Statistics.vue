@@ -1,8 +1,8 @@
 <template>
   <div class="absolute w-full h-full fromup100" :class="{ todown100: downAnimation}">
     <div class="absolute w-full h-3/4 text-center" style="top:12.5%;">
-        <h1 class="text-5xl text-center text-white select-none">Statistics</h1>
-        <p class="text-white text-3xl py-20" style="line-height: 1.8;">Total time played: {{ formatTime }}<br>
+        <h1 id="statistics-title" class="text-5xl text-center text-white select-none">Statistics</h1>
+        <p id="statistics-main" class="text-white text-3xl py-20" style="line-height: 1.8;">Total time played: {{ formatTime }}<br>
           Wins against CPU when going first (11+ depth): {{ statisticsData.winsAgainstCPUp1 }}<br>
           Wins against CPU when going second (11+ depth): {{ statisticsData.winsAgainstCPUp2 }}<br>
           Games started: {{ statisticsData.gamesStarted }}<br>
@@ -13,10 +13,9 @@
         </p>
     </div>
     <div class="absolute flex" style="width:12.5%;height:25%;left:87.5%;animation-delay: 0s;">
-      <button class="btn-red m-auto w-1/2 h-1/4 text-4xl" @click="backToMenu">EXIT</button>
+      <button class="btn-red m-auto w-1/2 h-1/4 text-4xl exit-button" @click="backToMenu">EXIT</button>
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -39,6 +38,9 @@ export default {
 
     disappearAnimation(){
       this.downAnimation = true
+      setTimeout(() => { // fail safe for going too fast
+        this.downAnimation = false
+      }, 500)
     },
   },
 

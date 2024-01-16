@@ -7,6 +7,7 @@
 } */
 
 
+
 .fromup{
   animation: up_to_middle 1.5s cubic-bezier(.23,.46,.2,1);
 }
@@ -185,10 +186,15 @@
 }
 
 html {
-  background-color: #111014;
+  --main-bg-color: #111014;
+  background-color: var(--main-bg-color);
   margin: 0;
   height: 100%;
   overflow: hidden
+}
+
+.anchor-center {
+  transform: translate(-50%, -50%);
 }
 
 .btn-green {
@@ -289,9 +295,108 @@ input::-webkit-inner-spin-button {
     margin: 0; 
 }
 
+#main-menu-main {
+  @apply w-1/2 h-3/4 absolute;
+  top:12.5%;
+  left:25%;
+}
 
-/* @media (max-width: 600px) {
-  .player1pocketbg {
-    @apply bg-black;
-  }  
-} */
+#main-menu-grid {
+  @apply absolute w-1/2 left-1/4 grid;
+  height:60%;
+  top:20%;
+}
+
+#author-name {
+  height:10%;
+  width:20%;
+  top:90%;
+  left:80%;
+}
+
+/* MOBILE PHONE CSS */
+@media (max-width: 1000px) or (max-height: 800px) {
+  #main-menu-main {
+    width: 90%;
+    left: 5%;
+  }
+
+  #main-menu-grid {
+    @apply flex w-full left-0 justify-between;
+  }
+
+  #main-menu-grid :first-child {
+    @apply mt-6;
+  }
+
+  .main-menu-button {
+    @apply text-sm;
+    flex-basis: 15%;
+  }
+
+  #author-name {
+    top:77.5%;
+    width:25%;
+    left:70%
+  }
+
+  #howto-title {
+    @apply text-2xl;
+  }
+
+  #howto-main-text {
+    @apply text-xs py-2;
+  }
+
+  .exit-button {
+    @apply rounded-sm text-sm w-3/4 h-1/2;
+  }
+
+  #settings-title {
+    @apply text-2xl;
+  }
+
+  #settings-form {
+    @apply text-sm py-10;
+  }
+
+  #statistics-title {
+    @apply text-2xl;
+  }
+
+  #statistics-main {
+    @apply text-xs py-2;
+  }
+
+  #pocket-container {
+    @apply rounded-lg;
+  }
+
+  .mobile-text-5xl {
+    @apply text-5xl;
+  }
+
+  .mobile-text-lg {
+    @apply text-lg;
+  }
+
+  .mobile-text-xs {
+    @apply text-xs;
+  }
+
+  .pocket-holder {
+    @apply p-1 gap-1;
+  }
+
+}
+
+#portraitWarning {
+  display: none;
+  background-color: var(--main-bg-color);
+}
+
+@media screen and (orientation:portrait) {
+  #portraitWarning {
+    display: block;
+  }
+}
