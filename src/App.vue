@@ -1,4 +1,5 @@
 <template>
+  
   <div v-if="portraitWarning == 1" id="portraitWarning" class="absolute w-screen h-screen z-10">
     <div class="text-white text-4xl absolute text-center" style="top:10%; left:10%; width:80%">Please rotate your device for the optimal experience! Thank you :3</div>
     <button class="bg-red-500 absolute text-lg text-white rounded-md border-2" style="bottom:15%; left:20%; width:60%; height:20%;" @click="closePortraitWarning()">I don't care</button>
@@ -7,15 +8,18 @@
   <HowTo v-if="state=='howto' || lingerState=='howto'" @back="setTabMenu"/>
   <Game v-if="state=='game' || lingerState=='game'" :gameVars="gameVars" :settingsData="settingsData" @statInc="statisticsIncrement" @playAgain="playAgain" @back="setTabMenu"/>
   <statistics v-if="state=='statistics' || lingerState=='statistics'" :statisticsData="statisticsData" @back="setTabMenu"/>
-  <Settings v-if="state=='settings' || lingerState=='settings'" :settingsData="settingsData" @back="setTabMenu"/>
+  <Settings v-if="state=='settings' || lingerState=='settings'" :settingsData="settingsData" @back="setTabMenu" @secret="setTabSecret"/>
+  <Secret v-if="state=='secret' || lingerState=='secret'" @back="setTabSettings"/>
 </template>
 
 <script>
+
 import MainMenu from './components/MainMenu.vue'
 import Game from './components/Game.vue'
 import HowTo from './components/HowTo.vue'
 import Statistics from './components/Statistics.vue'
 import Settings from './components/Settings.vue'
+import Secret from './components/Secret.vue'
 import { toNumber } from '@vue/shared'
 
 export default {
@@ -28,6 +32,7 @@ export default {
     HowTo,
     Statistics,
     Settings,
+    Secret,
   },
 
   data() {
@@ -69,7 +74,7 @@ export default {
     setInterval(() => {
       this.statisticsData.timePlayed++
       for (let i in this.statisticsData){
-        localStorage.setItem(i, this.statisticsData[i]);
+        localStorage.setItem(i, this.statisticsData[i])
       }
     }, 1000);
   },
@@ -123,9 +128,17 @@ export default {
       this.state = "menu"
     },
 
+    setTabSettings(){
+      this.state = "settings"
+    },
+
+    setTabSecret(){
+      this.state = "secret"
+    },
+
     closePortraitWarning(){
-      this.portraitWarning = 0;
-    }
+      this.portraitWarning = 0
+    },
 
   },
 
@@ -137,7 +150,7 @@ export default {
       this.lingerState = oldVal
       setTimeout(() => {
         this.lingerState = null
-      }, 500);
+      }, 600);
     },
 
     'settingsData.baseDepth': function(newVal, oldVal){

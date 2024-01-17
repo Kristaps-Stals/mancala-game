@@ -88,6 +88,44 @@
   }
 }
 
+.fromleft {
+  animation: fromleft 1.25s cubic-bezier(.23,.46,.2,1);
+}
+@keyframes fromleft {
+  0% {
+    transform: translateX(-110%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.toright {
+  animation: toright 0.75s cubic-bezier(.23,.46,.2,1);
+  animation-fill-mode: forwards;
+}
+@keyframes toright {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(110%);
+  }
+}
+
+ol li {
+  display: list-item;
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+
+ul li {
+  display: list-item;
+  list-style-position: inside;
+  list-style-type: square;
+}
 
 .gameAnimLeft {
   animation: gameAnimLeft 1s cubic-bezier(.23,.46,.2,1);
@@ -191,6 +229,22 @@ html {
   margin: 0;
   height: 100%;
   overflow: hidden
+}
+
+.defaulttext {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.defaultbutton {
+  @apply rounded pl-2 pr-2;
+  border-width: 1px;
+  border-color: rgb(118, 118, 118);
+  background-color: rgb(239, 239, 239);
+}
+
+.defaultbutton:hover {
+  border-color: rgb(79, 79, 79);
+  background-color: rgb(229, 229, 229);
 }
 
 .anchor-center {

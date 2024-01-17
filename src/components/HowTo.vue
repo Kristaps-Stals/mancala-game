@@ -40,7 +40,7 @@ export default {
       this.downAnimation = true
       setTimeout(() => { // fail safe for going too fast
         this.downAnimation = false
-      }, 500)
+      }, 600)
     },
   }
 

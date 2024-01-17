@@ -91,7 +91,7 @@ export default {
       close: false, // Play close animation
       currentGameState: [4,4,4,4,4,4,0,4,4,4,4,4,4,0], // Current game state; for game [4,4,4,4,4,4,0,4,4,4,4,4,4,0] for testing: [1,0,0,0,0,0,0,0,0,0,0,0,0,0]
       p1turn: true, // Whose turn it is - true means player or player1 and false means cpu or player2
-      round: 1, // How many rounds has the game been ongoing for
+      round: 1, // How many rounds has the game been going on for
       timeCreated: 0, // When the game was created in miliseconds (initialized in mounted)
       timePassed: 0, // How long the game has been ongoing
       timeInterval: null, // setInterval object. Defined so it can be stopped on unmount
