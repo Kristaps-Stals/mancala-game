@@ -3,7 +3,7 @@
     <div class="absolute w-full h-full" :class="{ todown100: downAnimation }"> 
 
       <!-- WEBPAGE CONTAINER -->
-      <div class="anchor-center absolute top-1/2 left-1/2 bg-white overflow-auto defaulttext" style="height:80%; width:80%"> 
+      <div class="anchor-center absolute top-1/2 left-1/2 bg-white overflow-auto defaulttext rounded" style="height:80%; width:80%"> 
         
         <figure class="float-left">
           <img src="../assets/catpicture.png" style="width:auto; height:300px;">
@@ -25,7 +25,7 @@
         
         <p><br></p>
 
-        <h1 class="text-3xl font-bold">AND THIS IS MY UNORDERED LIST</h1>
+        <h1 class="text-3xl font-bold"><i>AND THIS IS MY UNORDERED LIST</i></h1>
         <ul>
           <li>HI</li>
           <li>THIS</li>
@@ -40,7 +40,7 @@
 
         <p><br></p>
 
-        <h1 class="text-3xl font-bold">FEEDBACK FORM</h1>
+        <h1 class="text-3xl"><b>FEEDBACK FORM</b></h1>
         <form id="feedback-form" action="https://www.w3schools.com/action_page.php" onsubmit="return false" @submit="validateForm">
           <label for="feedback-text">Feedback: </label>
           <input id="feedback-text" name="feedback-text" class="border border-black rounded" type="text">
@@ -114,7 +114,7 @@ export default {
       if (pos == 150) return "You really think there is something at the end?"
       if (pos == 200) return "There might be :3"
       if (pos == 250) return "But if I give you a message once in a while, you will think there is more and keep going, right?"
-      if (pos == 275) return "But don't get discouraged if I'm a bit quiet at times... I'm not very goot at talking :( (somtimes)"
+      if (pos == 275) return "But don't get discouraged if I'm a bit quiet at times... I'm not very goot at talking :( (sometimes)"
       if (pos == 420) return "You expect the messages to be on nice and round numbers..."
       if (pos == 501) return "But that isnt always the case :)"
       if (pos == 600) return "It's lonely all the way out here..."
