@@ -2,8 +2,8 @@
   <div id="main-menu-main" class="fromup" :class="{ todown: downAnimation}">
     <h1 class="text-5xl text-center text-white select-none">Mancala</h1>
     <div id="main-menu-grid">
-      <button class="btn-green main-menu-button" @click="buttonClicked('singleplayer')">1 player</button>
-      <button class="btn-green mt-6 main-menu-button" @click="buttonClicked('singleplayerp2')">1 player (cpu starts)</button>
+      <button class="btn-green main-menu-button" @click="buttonClicked('singleplayer')">1 Player</button>
+      <button class="btn-green mt-6 main-menu-button" @click="buttonClicked('singleplayerp2')">1 Player (CPU starts)</button>
       <button class="btn-green mt-6 main-menu-button" @click="buttonClicked('multiplayer')">2 Players</button>
       <button class="btn-blue mt-6 main-menu-button" @click="buttonClicked('howto')">How-to</button>
       <button class="btn-blue mt-6 main-menu-button" @click="buttonClicked('statistics')">Statistics</button>
